@@ -10,9 +10,10 @@ class AlbumView{
         $this->smarty = new Smarty();
     }
     
-    function displayAlbums($albums, $logged){
-        $this->smarty->assign('logged', $logged);
+    function displayAlbums($albums, $admin, $logged){
+        $this->smarty->assign('admin', $admin);
         $this->smarty->assign('albums', $albums);
+        $this->smarty->assign('logged', $logged);
         $this->smarty->display('templates/albums.tpl');
         
     }
@@ -20,21 +21,29 @@ class AlbumView{
         header("Location:".BASE_URL."home");
     }
 
-    function showAlbum($album, $logged){
+    function showAlbum($album, $admin, $logged, $user){
+        $this->smarty->assign('admin', $admin);
+        $this->smarty->assign('user', $user);
         $this->smarty->assign('logged', $logged);
         $this->smarty->assign('album', $album);
         $this->smarty->display('templates/album.tpl');
-        
     }
-    function displayHome($recomendacion, $logged){
+    function displayHome($recomendacion, $admin, $logged){
+        $this->smarty->assign('admin', $admin);
         $this->smarty->assign('logged', $logged);
         $this->smarty->assign('recomendacion', $recomendacion);
         $this->smarty->display('templates/home.tpl');
     }
 
-    function displayAlbumsByArtist($albums, $logged){
+    function displayAlbumsByArtist($albums, $admin, $logged){
+        $this->smarty->assign('admin', $admin);
         $this->smarty->assign('logged', $logged);
         $this->smarty->assign('albums', $albums);
         $this->smarty->display('templates/albumbyartist.tpl');
     }
+
+    function showAlbumsLocation(){
+        header("Location:".BASE_URL."albums");
+    }
+
 }

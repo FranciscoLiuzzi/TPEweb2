@@ -8,7 +8,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{$artist->artist}</h5>
                             <p class="card-text">Genero: {$artist->genre}</p>
-                            <a href='artist/{$artist->id_artist}'> Ver en detalle</a>{if $logged}<a href='deleteArtist/{$artist->id_artist}'> Eliminar</a>{/if}
+                            <a href='artist/{$artist->id_artist}'> Ver en detalle</a>{if $admin}<a href='deleteArtist/{$artist->id_artist}'> Eliminar</a>{/if}
                         </div>
                     </div>
                 </div>

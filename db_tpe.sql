@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2021 a las 05:44:24
+-- Tiempo de generación: 19-11-2021 a las 22:31:00
 -- Versión del servidor: 10.4.19-MariaDB
 -- Versión de PHP: 8.0.6
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `album` (
   `id_album` int(11) NOT NULL,
   `album_name` varchar(50) NOT NULL,
-  `album_img` varchar(300) NOT NULL,
+  `album_img` varchar(255) NOT NULL,
   `anio` int(11) NOT NULL,
   `score` float NOT NULL,
   `n_artist` int(50) NOT NULL
@@ -59,7 +59,6 @@ INSERT INTO `album` (`id_album`, `album_name`, `album_img`, `anio`, `score`, `n_
 (37, 'AM', 'https://imagenes.elpais.com/resizer/fUfW9lXRyYYPxR4aD54krruLacI=/1960x0/arc-anglerfish-eu-central-1-prod-prisa.s3.amazonaws.com/public/QFNZK4SNY7LCBER64A4OR6D7DM.jpg', 2013, 5, 1),
 (38, 'To Pimp A Butterfly', 'https://images-na.ssl-images-amazon.com/images/I/81VcA8-kuZL._SX425_.jpg', 2015, 10, 5),
 (39, 'Ye', 'https://pyxis.nymag.com/v1/imgs/699/1e2/965287137d49b3f29e6ff9c4d0e5a3f07b-01-kanye-west-ye.rsquare.w1200.jpg', 2018, 8, 4),
-(40, 'The White Album', 'https://upload.wikimedia.org/wikipedia/commons/2/20/TheBeatles68LP.jpg', 1968, 9, 12),
 (44, 'Damn', 'https://http2.mlstatic.com/D_NQ_NP_713980-MLA46700193484_072021-O.jpg', 2017, 7, 5);
 
 -- --------------------------------------------------------
@@ -72,7 +71,7 @@ CREATE TABLE `artist` (
   `id_artist` int(11) NOT NULL,
   `artist` varchar(50) NOT NULL,
   `genre` varchar(50) NOT NULL,
-  `artist_img` varchar(300) NOT NULL
+  `artist_img` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -92,12 +91,35 @@ INSERT INTO `artist` (`id_artist`, `artist`, `genre`, `artist_img`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `comment`
+--
+
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_album` int(11) NOT NULL,
+  `comment` varchar(255) NOT NULL,
+  `score` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `comment`
+--
+
+INSERT INTO `comment` (`id`, `id_user`, `id_album`, `comment`, `score`) VALUES
+(1, 1, 3, 'buenardo', 100);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `user`
 --
 
 CREATE TABLE `user` (
   `id_user` int(11) NOT NULL,
+  `role` varchar(20) NOT NULL,
   `user` varchar(50) NOT NULL,
+  `email` varchar(300) NOT NULL,
   `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -105,8 +127,11 @@ CREATE TABLE `user` (
 -- Volcado de datos para la tabla `user`
 --
 
-INSERT INTO `user` (`id_user`, `user`, `password`) VALUES
-(1, 'lucho', '$2a$12$9/o9VstWRtK2RXb4jpiftuppePqbvNkOuv1s4JSSXI6UCvO/ZWv8y');
+INSERT INTO `user` (`id_user`, `role`, `user`, `email`, `password`) VALUES
+(1, 'admin', 'lucho', 'luchomellu@live.com.ar', '$2a$12$9/o9VstWRtK2RXb4jpiftuppePqbvNkOuv1s4JSSXI6UCvO/ZWv8y'),
+(4, 'usuario', 'juan', 'juan@juan.com', '$2y$10$C4SbQAtFjoQ9aa5C3R7qhuuHbwaqZz6qQ5B2mhxs3.6hUhKJLh.A2'),
+(6, 'usuario', 'algo', 'algo@algo.com', '$2y$10$JHGczeXRQmGpK6Fm3vkoteerOdXWPXPqZbjL7x17DIuSn65Dv.dhG'),
+(7, 'usuario', 'forro', 'forro@asd.com', '$2y$10$/Fbouzm0HlESOEtTSZn21e2ky0E4Pr1TE3MgJrzkkPC5GkI8VUDAi');
 
 --
 -- Índices para tablas volcadas
@@ -127,6 +152,14 @@ ALTER TABLE `artist`
   ADD KEY `id_artist` (`id_artist`);
 
 --
+-- Indices de la tabla `comment`
+--
+ALTER TABLE `comment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`,`id_album`),
+  ADD KEY `id_album` (`id_album`);
+
+--
 -- Indices de la tabla `user`
 --
 ALTER TABLE `user`
@@ -140,19 +173,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT de la tabla `album`
 --
 ALTER TABLE `album`
-  MODIFY `id_album` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id_album` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT de la tabla `artist`
 --
 ALTER TABLE `artist`
-  MODIFY `id_artist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_artist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT de la tabla `comment`
+--
+ALTER TABLE `comment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas
@@ -163,9 +202,15 @@ ALTER TABLE `user`
 --
 ALTER TABLE `album`
   ADD CONSTRAINT `album_ibfk_1` FOREIGN KEY (`n_artist`) REFERENCES `artist` (`id_artist`);
+
+--
+-- Filtros para la tabla `comment`
+--
+ALTER TABLE `comment`
+  ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`id_album`) REFERENCES `album` (`id_album`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
---

@@ -1,16 +1,14 @@
 <?php
-
 require_once 'libs/Router.php';
-require_once 'Controller/ApiAlbumController.php';
+require_once 'Controller/APIController.php';
 
 // crea el router
 $router = new Router();
 
 // define la tabla de ruteo
-$router->addRoute('albums', 'GET', 'ApiAlbumController', 'getAlbums');
-$router->addRoute('albums', 'POST', 'ApiAlbumController', 'insertAlbum');
-$router->addRoute('albums/:ID', 'GET', 'ApiAlbumController', 'getAlbum');
-
+$router->addRoute('comment/:ID', 'GET', 'CommentApiController', 'getComments');
+$router->addRoute('comment', 'POST', 'CommentApiController', 'postComment');
+$router->addRoute('comment/:ID', 'DELETE', 'CommentApiController', 'deleteComment');
 
 
 // rutea

@@ -5,24 +5,27 @@ class AuthHelper {
 
     }
 
-    /*public function login($user) {
-        session_start();
-        $_SESSION['ID_USER'] = $user->id;
-        $_SESSION['USERNAME'] = $user->username;
-    }
-
-    public function logout() {
-        session_start();
-        session_destroy();
-    }*/
-
     public function checkLogin() {
         session_start();
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user'])){
             return false;
         }else{
             return true;
         }     
+        
+    }
+
+    public function checkAdmin() {
+        if(isset($_SESSION['user'])){
+            if (($_SESSION["role"]) == "usuario"){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            return false;
+        }
+         
     }
 
 }
