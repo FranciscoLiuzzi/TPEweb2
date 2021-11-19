@@ -9,7 +9,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{$album->album_name} - {$album->artist}</h5>
                             <p class="card-text">publicado el anio {$album->anio} con una calificacion de {$album->score}</p>
-                            <a href='album/{$album->id_album}'> Ver en detalle</a>{if $logged}<a href='deleteAlbum/{$album->id_album}'> Eliminar</a>{/if}
+                            <a href='album/{$album->id_album}'> Ver en detalle</a>{if $admin}<a href='deleteAlbum/{$album->id_album}'> Eliminar</a>{/if}
                             
                         </div>
                     </div>

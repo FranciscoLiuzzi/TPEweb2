@@ -3,8 +3,7 @@
     
     require_once 'Controller/AlbumController.php';
     require_once 'Controller/ArtistController.php';
-    require_once 'Controller/LoginController.php';
-    require_once 'Controller/abmController.php';
+    require_once 'Controller/UserController.php';
     
     if (!empty($_GET['action'])){
         $action = $_GET['action'];
@@ -12,10 +11,9 @@
         $action = 'home';
     }
 
-    $abmController = new abmController();
     $albumController = new AlbumController();
     $artistController = new ArtistController();
-    $loginController = new LoginController();
+    $userController = new UserController();
 
     $params = explode('/', $action);
 
@@ -23,12 +21,23 @@
         case 'home':
             $albumController->showHome();
             break;
+    /*--------------------------------------------ALBUMS----------------------------------------------------*/
         case 'albums':
             $albumController->showAlbums();
             break;
         case 'album':
             $albumController->showAlbum($params[1]);
             break;
+        case 'createAlbum':
+            $albumController->createAlbum();
+            break;
+        case 'deleteAlbum':
+            $albumController->deleteAlbum($params[1]);
+            break;
+        case 'editAlbum':
+            $albumController->editAlbum();
+            break;
+    /*--------------------------------------------ARTISTAS----------------------------------------------------*/
         case 'artist':
             if (!empty($params[1])){
                 $albumController->showAlbumByArtist($params[1]);
@@ -36,38 +45,42 @@
                 $artistController->showArtists();
             }
             break;
-        case 'createAlbum':
-            $abmController->createAlbum();
-            break;
-        case 'deleteAlbum':
-            $abmController->deleteAlbum($params[1]);
-            break;
         case 'deleteArtist':
-            $abmController->deleteArtist($params[1]);
+            $artistController->deleteArtist($params[1]);
             break;
         case 'createArtist':
-            $abmController->createArtist();
-            break;
-        case 'editAlbum':
-            $abmController->editAlbum();
+            $artistController->createArtist();
             break;
         case 'editArtist':
-            $abmController->editArtist();
+            $artistController->editArtist();
             break;
+    /*--------------------------------------------USUARIOS----------------------------------------------------*/
         case 'login':
-            $loginController->showLogin();
+            $userController->showLogin();
+            break;
+        case 'register':
+            $userController->showRegister();
             break;
         case 'verifyUser':
-            $loginController->verifyUser();
+            $userController->verifyUser();
+            break;
+        case 'createUser':
+            $userController->registerUser();
             break;
         case 'logout':
-            $loginController->logout();
+            $userController->logout();
             break;
-        case 'showAddAlbum':
-            $abmController->showAddAlbum();
+        case 'admin':
+            $userController->showAdmin();
             break;
-        case 'showAddArtist':
-            $abmController->showAddArtist();
+        case 'giveAdmin':
+            $userController->giveAdmin($params[1]);
+            break;
+        case 'deleteAdmin':
+            $userController->deleteAdmin($params[1]);
+            break;
+        case 'deleteUser':
+            $userController->deleteUser($params[1]);
             break;
         default:
             echo('404 Page not found');
