@@ -15,4 +15,5 @@
             {/foreach}
         </div>
 </div>
+<script type="text/javascript" src="./js/comments.js"></script>
 {include file="templates/footer.tpl"}

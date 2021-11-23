@@ -10,7 +10,7 @@ class CommentModel{
 
     function getComments($id){
         $query = $this->db->prepare("SELECT * FROM comment WHERE id_album = ?");
-        $query->execute($id);
+        $query->execute(array($id));
         
         $comments = $query->fetchAll(PDO::FETCH_OBJ);
 
@@ -19,7 +19,7 @@ class CommentModel{
 
     function getComment($id){
         $query = $this->db->prepare("SELECT * FROM comment WHERE id = ?");
-        $query->execute($id);
+        $query->execute(array($id));
         
         return $query->fetch(PDO::FETCH_OBJ);
     }
@@ -27,6 +27,8 @@ class CommentModel{
     function newComment($id_user,$id_album,$comment,$score){
         $query = $this->db->prepare("INSERT INTO comment(id_user,id_album,comment,score) VALUES(?,?,?,?)");
         $query->execute(array($id_user,$id_album,$comment,$score));
+
+        return $this->db->lastInsertId();
     }
 
     function dropComment($id){

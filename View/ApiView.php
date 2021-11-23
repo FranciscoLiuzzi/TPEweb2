@@ -8,16 +8,12 @@ class ApiView{
         echo json_encode($data);
     }
 
-    function _requestStatus($code){
+    private function _requestStatus($code){
         $status = array(
-            200 => "OK",
-            404 => "Not found",
-            500 => "Internal Server Error"
+        200 => "OK",
+        404 => "Not found",
+        500 => "Internal Server Error"
         );
-        if (isset($status[$code])){
-            return $status[$code]; 
-        }else{
-            return $status[500];
-        }
+        return (isset($status[$code]))? $status[$code] : $status[500];
     }
 }

@@ -13,18 +13,24 @@
             </div>
             </div>
         </div>
-    </div> GRACIAS BROOOOOOOO
+    </div> 
     <div class="panel">
-    <form class="panel-body" data-id = {$album->id_album}>
-        <textarea class="form-control" rows="2" placeholder="What are you thinking?"></textarea>
-        
-        <div class="mar-top clearfix">
-            <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i> Share</button>
-        </div>
-    </form>
+        <form class="panel-body" data-user={$user->id} data-id={$album->id_album} id="formComment">
+            <textarea class="form-control" rows="2" placeholder="Haz un comentario" name="comment"></textarea>
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="score">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <div class="mar-top clearfix">
+                <button class="btn btn-sm btn-primary pull-right" id="sendComment"><i class="fa fa-pencil fa-fw"></i>Compartir!</button>
+            </div>
+        </form>
+    </div>
 </div>
-</div>
-{foreach from=$user item=$info}
-    <p>{$info}</p>
-{/foreach}
+
+<script type="text/javascript" src="../js/comments.js"></script>
+
 {include file="templates/footer.tpl"}

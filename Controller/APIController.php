@@ -10,6 +10,7 @@ class CommentApiController {
     function __construct(){
         $this->model = new CommentModel();
         $this->view = new ApiView();
+        
     }
 
     function getComments($params = null){
@@ -34,13 +35,23 @@ class CommentApiController {
         }
     }
 //consultar a lucho
-    function addComment(){
+    function postComment($params = null){
         //chequear que este logeado
-        $id_user = $_SESSION['id'];
-        $id_album = "nose";
-        $comment = $_POST['comment'];
-        $score = $_POST['score'];
+        $body = $this->getBody();
 
-        $this->model->newComment($id_user,$id_album,$comment,$score);
+        $id = $this->model->newComment($body->id_user,$body->id_album,$body->comment,$body->score);
+        if ($id != 0){
+            $id = $this->model->newComment($body->id_user,$body->id_album,$body->comment,$body->score);
+            $this->view->response("NASHEEEEEEE", 200);
+        }else{
+            $this->view->response("F",500);
+        }
     }
+
+    private function getBody() {
+        $bodyString = file_get_contents("php://input");
+        return json_decode($bodyString);
+    }
+
+
 }

@@ -34,7 +34,7 @@ class AlbumController{
 
     function showAlbum($id){
         $logged = $this->authhelper->checkLogin();
-        $user = $_SESSION;
+        $user = json_decode(json_encode($_SESSION));
         $admin = $this->authhelper->checkAdmin();
         $album = $this->model->getAlbum($id);
         $this->view->showAlbum($album, $admin, $logged, $user);
