@@ -36,4 +36,16 @@ class UserView{
         $this->smarty->assign('logged', $logged);
         $this->smarty->display('templates/admin.tpl');
     }
+
+    public function showSucces($logged, $notification = "") {
+        $this->smarty->assign('logged', $logged);
+        $this->smarty->assign('notification', $notification); 
+        $this->smarty->display('templates/succes.tpl');
+    }
+
+    public function showError($logged, $notification = "") {
+        $this->smarty->assign('logged', $logged);
+        $this->smarty->assign('notification', $notification); 
+        $this->smarty->display('templates/error.tpl');
+    }
 }

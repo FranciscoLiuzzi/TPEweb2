@@ -41,7 +41,6 @@ class CommentApiController {
 
         $id = $this->model->newComment($body->id_user,$body->id_album,$body->comment,$body->score);
         if ($id != 0){
-            $id = $this->model->newComment($body->id_user,$body->id_album,$body->comment,$body->score);
             $this->view->response("NASHEEEEEEE", 200);
         }else{
             $this->view->response("F",500);

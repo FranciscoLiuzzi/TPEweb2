@@ -31,7 +31,7 @@ class ArtistController{
             if($admin == true){
                 //validar que llegue algo
                 $this->model->editArtist($_POST['id_artist'],$_POST['artist'],$_POST['genre'],$_POST['artist_img']);
-                //$this->view->showAddArtistLocation(); 
+                $this->view_user->showSucces($logged, "Artista editado!"); 
             }else{
                 $this->view_user->showLoginLocation();
             }
@@ -49,7 +49,7 @@ class ArtistController{
                 try{
                     //validar que llegue algo
                     $this->model->insertArtist($_POST['artist'],$_POST['genre'],$_POST['image']);
-                    //$this->view->showAddArtistLocation();   
+                    $this->view_user->showSucces($logged, "Artista creado!");    
                 }catch( PDOEXception $e ) {
                     echo $e->getMessage(); // display error
                     exit();       

@@ -54,9 +54,9 @@ class AlbumController{
             if($admin == true){
                 //agregar validacion de si llega
                 $this->model->editAlbum($_POST['id_album'],$_POST['album'],$_POST['image'],$_POST['anio'],$_POST['score'],$_POST['artist']);
-                //$this->view->showAddAlbumLocation();
+                $this->view_user->showSucces($logged,"Album editado!");
             }else{
-                $this->view_user->showLoginLocation();
+                $this->view_user->showError($logged,"No tenes permisos gato!");
             }
         }else{
             $this->view_user->showLoginLocation();
@@ -87,7 +87,7 @@ class AlbumController{
                 try{
                     //validar si llega algo
                     $this->model->insertAlbum($_POST['album'],$_POST['image'],$_POST['anio'],$_POST['score'],$_POST['artist']);
-                    //$this->view->showAddAlbumLocation();
+                    $this->view_user->showSucces($logged,"Album creado!");
                 } catch( PDOEXception $e ) {
                     echo $e->getMessage(); // display error
                     exit();       
