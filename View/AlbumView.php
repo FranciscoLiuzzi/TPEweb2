@@ -10,10 +10,10 @@ class AlbumView{
         $this->smarty = new Smarty();
     }
     
-    function displayAlbums($albums, $admin, $logged){
+    function displayAlbums($albums, $admin, $logged,$pags){
         $this->smarty->assign('admin', $admin);
         $this->smarty->assign('albums', $albums);
-        //$this->smarty->assign('pags', $pags);
+        $this->smarty->assign('pags', $pags);
         $this->smarty->assign('logged', $logged);
         $this->smarty->display('templates/albums.tpl');
         

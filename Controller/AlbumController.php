@@ -17,33 +17,34 @@ class AlbumController{
         $this->authhelper = new AuthHelper();
     }
 
-    function showAlbums(){
+    /*function showAlbums(){
         $logged = $this->authhelper->checkLogin();
         $admin = $this->authhelper->checkAdmin();
         $albums = $this->model->getAlbums();
         $this->view->displayAlbums($albums, $admin, $logged);
-    }
+    }*/
 
-    /*function pagination(){
-        $limit = 10;
-        $nItems = $this->model->calcItems();
+    function pagination(){
+        $limit = 9;
+        $items = $this->model->calcItems();
+        $nItems = $items->id;
         $nPags = ceil($nItems / $limit);
 
         return $nPags;
     }
 
     function showAlbumsN($pag = null){
-        if ($pag = null){
-            $pag == 1;
+        if ($pag == null){
+            $pag = 1;
         }
-        $limit = 10;
-        $offset = ($limit * $pag) - $limit;
+        $limit = 9;
+        $offset = ($pag - 1) * $limit;
         $pags = $this->pagination();
         $logged = $this->authhelper->checkLogin();
         $admin = $this->authhelper->checkAdmin();
         $albums = $this->model->getAlbumsPag($limit,$offset);
         $this->view->displayAlbums($albums, $admin, $logged,$pags);
-    }*/
+    }
 
     function showHome(){
         $logged = $this->authhelper->checkLogin();
@@ -122,12 +123,12 @@ class AlbumController{
         if($logged == true){
             if($admin == true){
                 if(!empty($_POST['album']) && !empty($_POST['image']) && !empty($_POST['anio']) && !empty($_POST['score']) && !empty($_POST['artist'])){
-                    $id = $this->model->insertAlbum($_POST['album'],$_POST['image'],$_POST['anio'],$_POST['score'],$_POST['artist']);
-                    if($id != 0){
-                        $this->view_user->showSucces($logged,"Album creado!");
-                    }else{
-                        $this->view_user->showError($logged,"Error: no se pudo crear el album!");
-                    }  
+                        $id = $this->model->insertAlbum($_POST['album'],$_POST['image'],$_POST['anio'],$_POST['score'],$_POST['artist']);
+                        if($id != 0){
+                            $this->view_user->showSucces($logged,"Album creado!");
+                        }else{
+                            $this->view_user->showError($logged,"Error: no se pudo crear el album!");
+                        }
                 }else{
                     $this->view_user->showError($logged,"Error: Los campos no fueron llenados");
                 }

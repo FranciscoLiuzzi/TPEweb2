@@ -8,7 +8,7 @@
         </div>
     {/foreach}
     <h2>Insertar Album</h2>
-    <form action="createAlbum" method="post">
+    <form action="createAlbum" method="post" enctype="multipart/form-data">
         <div class="form-floating mb-3 mt-3">
             <input type="text" class="form-control" id="floatingInput" placeholder="album" name="album">
             <label for="floatingInput">Album</label>

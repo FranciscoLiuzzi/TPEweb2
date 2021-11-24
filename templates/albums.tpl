@@ -1,5 +1,13 @@
 {include file="templates/header.tpl"}
 <div class="container">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {for $foo=1 to $pags}
+                <li class="page-item"><a class="page-link" href="{BASE_URL}albums/{$foo}">{$foo}</a></li>
+            {/for}
+            <span aria-hidden="true">&raquo;</span>
+        </ul>
+    </nav>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {foreach from=$albums item=$album}
             <div class="col">
@@ -16,9 +24,10 @@
     </div>
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            {for $a = 1 to $pags->id}
-                <li class="page-item"><a class="page-link" href="albums/{$a}">{$a}</a></li>
+            {for $foo=1 to $pags}
+                <li class="page-item"><a class="page-link" href="{BASE_URL}albums/{$foo}">{$foo}</a></li>
             {/for}
+            <span aria-hidden="true">&raquo;</span>
         </ul>
     </nav>
 </div>
