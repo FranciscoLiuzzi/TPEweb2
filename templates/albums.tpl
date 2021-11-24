@@ -5,7 +5,6 @@
             {for $foo=1 to $pags}
                 <li class="page-item"><a class="page-link" href="{BASE_URL}albums/{$foo}">{$foo}</a></li>
             {/for}
-            <span aria-hidden="true">&raquo;</span>
         </ul>
     </nav>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -16,7 +15,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{$album->album_name} - {$album->artist}</h5>
                         <p class="card-text">publicado el anio {$album->anio} con una calificacion de {$album->score}</p>
-                        <a href='album/{$album->id_album}'> Ver en detalle</a> {if $admin}<a href='deleteAlbum/{$album->id_album}'> Eliminar</a>{/if}
+                        <a href='album/{$album->id_album}'> Ver en detalle</a> {if $admin}<a href='{BASE_URL}deleteAlbum/{$album->id_album}'> Eliminar</a>{/if}
                     </div>
                 </div>
             </div>

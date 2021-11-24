@@ -13,9 +13,9 @@
             <input type="text" class="form-control" id="floatingInput" placeholder="album" name="album">
             <label for="floatingInput">Album</label>
         </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingPassword" placeholder="image" name="image">
-            <label for="floatingPassword">Image</label>
+        <div class="input-group mb-3">
+            <input type="file" class="form-control" id="inputGroupFile01" placeholder="image" name="image">
+            <label class="input-group-text" for="inputGroupFile01">Image</label>
         </div>
         <div class="form-floating mb-3">
             <input type="number" class="form-control" id="floatingInput" placeholder="anio" name="anio">
@@ -33,7 +33,7 @@
         <button type="submit" class="btn btn-outline-primary">Agregar</button>
     </form>
     <h2>Editar Album</h2>
-    <form action="editAlbum" method="post">
+    <form action="editAlbum" method="post" enctype="multipart/form-data">
         <select name="id_album">
             {foreach from=$albums item=$album}
                 <option value={$album->id_album}>{$album->album_name}</option>
@@ -43,9 +43,9 @@
             <input type="text" class="form-control" id="floatingInput" placeholder="album" name="album">
             <label for="floatingInput">Album</label>
         </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingPassword" placeholder="image" name="image">
-            <label for="floatingPassword">Image</label>
+        <div class="input-group mb-3">
+            <input type="file" class="form-control" id="inputGroupFile01" placeholder="image" name="image">
+            <label class="input-group-text" for="inputGroupFile01">Image</label>
         </div>
         <div class="form-floating mb-3">
             <input type="number" class="form-control" id="floatingInput" placeholder="anio" name="anio">

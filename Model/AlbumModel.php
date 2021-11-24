@@ -56,20 +56,30 @@ class AlbumModel{
     }
 
     function editAlbum($id_album,$album,$image,$anio,$score,$artist){
+        $pathImg = null;
+        if ($image){
+            $pathImg = $this->uploadImage($image);
+        }
         $query = $this->db->prepare("UPDATE album SET id_album = ?,album_name = ?,album_img = ?,anio = ?,score = ?,n_artist = ? WHERE id_album = ?");
-        $query->execute(array($id_album,$album,$image,$anio,$score,$artist,$id_album));
+        $query->execute(array($id_album,$album,$pathImg,$anio,$score,$artist,$id_album));
         
         return $this->db->lastInsertId();
     }
 
-    function insertAlbum($album,$img,$year,$score,$id_artist) {
-       /* $pathImg = null;
+    private function uploadImage($image){
+        $target = "img/albums/" . uniqid() . '.jpeg';
+        move_uploaded_file($image, $target);
+        return $target;
+    }
 
-        if($img){
+
+    function insertAlbum($album,$img,$year,$score,$id_artist) {
+        $pathImg = null;
+        if ($img){
             $pathImg = $this->uploadImage($img);
-        }*/
+        }
         $query = $this->db->prepare("INSERT INTO album(id_album,album_name,album_img,anio,score,n_artist) VALUES (NULL,?,?,?,?,?)");
-        $query->execute(array($album,$img,$year,$score,$id_artist));
+        $query->execute(array($album,$pathImg,$year,$score,$id_artist));
 
         return $this->db->lastInsertId();
     }

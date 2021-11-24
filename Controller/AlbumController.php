@@ -83,9 +83,13 @@ class AlbumController{
         if($logged == true){
             if($admin == true){
                 //agregar validacion de si llega
-                if(!empty($_POST['id_album']) && !empty($_POST['album']) && !empty($_POST['image']) && !empty($_POST['anio']) && !empty($_POST['score']) && !empty($_POST['artist'])){
-                    $this->model->editAlbum($_POST['id_album'],$_POST['album'],$_POST['image'],$_POST['anio'],$_POST['score'],$_POST['artist']);
-                    $this->view_user->showSucces($logged,"Album editado!");
+                if(!empty($_POST['id_album']) && !empty($_POST['album']) && !empty($_FILES["image"]["name"]) && !empty($_POST['anio']) && !empty($_POST['score']) && !empty($_POST['artist'])){
+                    if($_FILES['image']['type'] == "image/jpg" || $_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png" ) {
+                        $this->model->editAlbum($_POST['id_album'],$_POST['album'],$_FILES["image"]["tmp_name"],$_POST['anio'],$_POST['score'],$_POST['artist']);
+                        $this->view_user->showSucces($logged,"Album editado!");
+                    }else{
+                        $this->view_user->showError($logged,"Error: Error en la carga de imagen");
+                    }
                 }else{
                     $this->view_user->showError($logged,"Error: faltan llenar campos!");
                 }
@@ -122,13 +126,17 @@ class AlbumController{
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                if(!empty($_POST['album']) && !empty($_POST['image']) && !empty($_POST['anio']) && !empty($_POST['score']) && !empty($_POST['artist'])){
-                        $id = $this->model->insertAlbum($_POST['album'],$_POST['image'],$_POST['anio'],$_POST['score'],$_POST['artist']);
+                if(!empty($_POST['album']) && !empty($_FILES["image"]["name"]) && !empty($_POST['anio']) && !empty($_POST['score']) && !empty($_POST['artist'])){
+                    if($_FILES['image']['type'] == "image/jpg" || $_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png" ) {
+                        $id = $this->model->insertAlbum($_POST['album'],$_FILES["image"]["tmp_name"],$_POST['anio'],$_POST['score'],$_POST['artist']);
                         if($id != 0){
                             $this->view_user->showSucces($logged,"Album creado!");
                         }else{
                             $this->view_user->showError($logged,"Error: no se pudo crear el album!");
                         }
+                    }else{
+                        $this->view_user->showError($logged,"Error: Error en la carga de imagen");
+                    }
                 }else{
                     $this->view_user->showError($logged,"Error: Los campos no fueron llenados");
                 }
