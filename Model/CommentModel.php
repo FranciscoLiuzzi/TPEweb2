@@ -43,5 +43,7 @@ class CommentModel{
     function dropComment($id){
         $query = $this->db->prepare("DELETE FROM comment WHERE id = ?");
         $query->execute(array($id));
+
+        
     }
 }

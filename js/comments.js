@@ -9,6 +9,21 @@ let app = new Vue({
         role: role,
         comments: [],
     },
+    methods:{
+        deleteComment: async function (id){
+            try{
+                let response = await fetch(`/proyectos/tpe/api/comment/${id}`,{
+                    method:"DELETE",
+                });
+                if (response.ok){
+                    console.log("Borrado");
+                    getComments();
+                }
+            }catch(error){
+                alert(error)
+            }
+        }
+    }
 });
 
 let btn = document.querySelector("#sendComment");
@@ -29,27 +44,6 @@ async function getComments(){
 }
 
 getComments();
-
-document.querySelectorAll(".btn btn-danger").forEach(botonBorrar =>{
-    botonBorrar.addEventListener("click", deleteComment(botonBorrar.value))
-}); 
-
-
-async function deleteComment($id){
-    event.preventDefault();
-    console.log($id);
-    /*try{
-        let response = await fetch(URL_API + {
-            method:"DELETE",
-        });
-        if (respuesta.ok){
-            console.log("Borrado");
-            getComments();
-        }
-    }catch(error){
-        alert(error)
-    }*/
-}
 
 async function postComment(){
     event.preventDefault();

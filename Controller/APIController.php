@@ -27,7 +27,6 @@ class CommentApiController {
     function deleteComment($params = null){
         $id = $params[':ID'];
         $comment = $this->model->getComment($id);
-
         if ($comment){
             $this->model->dropComment($id);
             $this->view->response("Comentario borrado", 200);
