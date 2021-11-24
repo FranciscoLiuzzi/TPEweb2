@@ -22,7 +22,10 @@ class UserView{
 
     public function showHome(){
         header("Location:".BASE_URL."home");
-    
+    }
+
+    public function showAdminLocation(){
+        header("Location:".BASE_URL."admin");
     }
 
     function showLoginLocation(){

@@ -30,12 +30,15 @@ class ArtistController{
         if($logged == true){
             if($admin == true){
                 //validar que llegue algo
-                $this->model->editArtist($_POST['id_artist'],$_POST['artist'],$_POST['genre'],$_POST['artist_img']);
-                $this->view_user->showSucces($logged, "Artista editado!"); 
+                if(!empty($_POST['id_artist']) && !empty($_POST['artist']) && !empty($_POST['genre']) && !empty($_POST['artist_img'])){
+                    $this->model->editArtist($_POST['id_artist'],$_POST['artist'],$_POST['genre'],$_POST['artist_img']);
+                    $this->view_user->showSucces($logged, "Artista editado!");
+                }else{
+                    $this->view_user->showError($logged,"Error: Faltan llenar campos!");
+                }
             }else{
-                $this->view_user->showLoginLocation();
+                $this->view_user->showError($logged,"No tenes permisos");
             }
-            
         }else{
             $this->view_user->showLoginLocation();
         }
@@ -46,22 +49,23 @@ class ArtistController{
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                try{
-                    //validar que llegue algo
-                    $this->model->insertArtist($_POST['artist'],$_POST['genre'],$_POST['image']);
-                    $this->view_user->showSucces($logged, "Artista creado!");    
-                }catch( PDOEXception $e ) {
-                    echo $e->getMessage(); // display error
-                    exit();       
+                //validar que llegue algo
+                if(!empty($_POST['artist']) && !empty($_POST['genre']) && !empty($_POST['image'])){
+                    $id = $this->model->insertArtist($_POST['artist'],$_POST['genre'],$_POST['image']);
+                    if($id != 0){
+                        $this->view_user->showSucces($logged, "Artista creado!"); 
+                    }else{
+                        $this->view_user->showError($logged, "Error: El artista no fue creado!");
+                    }
+                }else{
+                    $this->view_user->showError($logged,"Error: Faltan llenar campos!");
                 }
-
             }else{
-                $this->view_user->showLoginLocation();
+                $this->view_user->showError($logged,"No tenes permisos");
             } 
         }else{
             $this->view_user->showLoginLocation();
         }
-        
     }
 
     function deleteArtist($id){
@@ -70,10 +74,19 @@ class ArtistController{
         if($logged == true){
             if($admin == true){
                 //validar que exista 
-                $this->model->dropArtist($id);
-                $this->view->showArtistsLocation();
+                try{
+                    $artist = $this->model->getArtist($id);
+                    if($artist){
+                        $this->model->dropArtist($id);
+                        $this->view->showArtistsLocation();
+                    }else{
+                        $this->view_user->showError($logged,"No existe el artista");
+                    }
+                }catch(Exception $e){
+                    $this->view_user->showError($logged,"El artista no debe tener albums cargados");
+                }
             }else{
-                $this->view_user->showLoginLocation();
+                $this->view_user->showError($logged,"No tenes permisos");
             }
         }else{
             $this->view_user->showLoginLocation();

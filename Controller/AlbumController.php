@@ -24,6 +24,27 @@ class AlbumController{
         $this->view->displayAlbums($albums, $admin, $logged);
     }
 
+    /*function pagination(){
+        $limit = 10;
+        $nItems = $this->model->calcItems();
+        $nPags = ceil($nItems / $limit);
+
+        return $nPags;
+    }
+
+    function showAlbumsN($pag = null){
+        if ($pag = null){
+            $pag == 1;
+        }
+        $limit = 10;
+        $offset = ($limit * $pag) - $limit;
+        $pags = $this->pagination();
+        $logged = $this->authhelper->checkLogin();
+        $admin = $this->authhelper->checkAdmin();
+        $albums = $this->model->getAlbumsPag($limit,$offset);
+        $this->view->displayAlbums($albums, $admin, $logged,$pags);
+    }*/
+
     function showHome(){
         $logged = $this->authhelper->checkLogin();
         $admin = $this->authhelper->checkAdmin();
@@ -37,14 +58,22 @@ class AlbumController{
         $user = json_decode(json_encode($_SESSION));
         $admin = $this->authhelper->checkAdmin();
         $album = $this->model->getAlbum($id);
-        $this->view->showAlbum($album, $admin, $logged, $user);
+        if($album){
+            $this->view->showAlbum($album, $admin, $logged, $user);
+        }else{
+            $this->view_user->showError($logged,"No existe el album");
+        }
     }
 
     function showAlbumByArtist($id){
         $logged = $this->authhelper->checkLogin();
         $admin = $this->authhelper->checkAdmin();
         $albums = $this->model->getAlbumsArtist($id);
-        $this->view->displayAlbumsByArtist($albums, $admin, $logged);
+        if($albums){
+            $this->view->displayAlbumsByArtist($albums, $admin, $logged);
+        }else{
+            $this->view_user->showError($logged,"No existe el artista");
+        }
     }
 
     function editAlbum(){
@@ -53,10 +82,14 @@ class AlbumController{
         if($logged == true){
             if($admin == true){
                 //agregar validacion de si llega
-                $this->model->editAlbum($_POST['id_album'],$_POST['album'],$_POST['image'],$_POST['anio'],$_POST['score'],$_POST['artist']);
-                $this->view_user->showSucces($logged,"Album editado!");
+                if(!empty($_POST['id_album']) && !empty($_POST['album']) && !empty($_POST['image']) && !empty($_POST['anio']) && !empty($_POST['score']) && !empty($_POST['artist'])){
+                    $this->model->editAlbum($_POST['id_album'],$_POST['album'],$_POST['image'],$_POST['anio'],$_POST['score'],$_POST['artist']);
+                    $this->view_user->showSucces($logged,"Album editado!");
+                }else{
+                    $this->view_user->showError($logged,"Error: faltan llenar campos!");
+                }
             }else{
-                $this->view_user->showError($logged,"No tenes permisos gato!");
+                $this->view_user->showError($logged,"No tenes permisos");
             }
         }else{
             $this->view_user->showLoginLocation();
@@ -68,11 +101,15 @@ class AlbumController{
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                //validar que el album exista
-                $this->model->dropAlbum($id);
-                $this->view->showAlbumsLocation();
+                $album = $this->model->getAlbum($id);//validar que el album exista
+                if($album){
+                    $this->model->dropAlbum($id);
+                    $this->view->showAlbumsLocation();
+                }else{
+                    $this->view_user->showError($logged,"No existe el album!");
+                }
             }else{
-                $this->view_user->showLoginLocation();
+                $this->view_user->showError($logged,"No tenes permisos");
             }
         }else{
             $this->view_user->showLoginLocation();
@@ -84,16 +121,18 @@ class AlbumController{
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                try{
-                    //validar si llega algo
-                    $this->model->insertAlbum($_POST['album'],$_POST['image'],$_POST['anio'],$_POST['score'],$_POST['artist']);
-                    $this->view_user->showSucces($logged,"Album creado!");
-                } catch( PDOEXception $e ) {
-                    echo $e->getMessage(); // display error
-                    exit();       
+                if(!empty($_POST['album']) && !empty($_POST['image']) && !empty($_POST['anio']) && !empty($_POST['score']) && !empty($_POST['artist'])){
+                    $id = $this->model->insertAlbum($_POST['album'],$_POST['image'],$_POST['anio'],$_POST['score'],$_POST['artist']);
+                    if($id != 0){
+                        $this->view_user->showSucces($logged,"Album creado!");
+                    }else{
+                        $this->view_user->showError($logged,"Error: no se pudo crear el album!");
+                    }  
+                }else{
+                    $this->view_user->showError($logged,"Error: Los campos no fueron llenados");
                 }
             }else{
-                $this->view_user->showLoginLocation();
+                $this->view_user->showError($logged,"No tenes permisos");
             }
         }else{
             $this->view_user->showLoginLocation();

@@ -17,9 +17,20 @@ class UserModel{
         return $data;
     }
 
+    function getUserbyId($id){
+        $query = $this->db->prepare('SELECT * FROM user WHERE id_user = ?');
+        $query->execute(array($id));
+
+        $data = $query->fetch(PDO::FETCH_OBJ);
+
+        return $data;
+    }
+
     function insertUser($user,$password,$mail){
         $query = $this->db->prepare('INSERT INTO user(role,user,email,password) VALUES ("usuario",?,?,?)');
         $query->execute(array($user,$mail,$password));
+
+        return $this->db->lastInsertId();
     }
 
     function dropUser($id){

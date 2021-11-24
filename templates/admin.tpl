@@ -1,6 +1,7 @@
 {include file="templates/onlyhomenav.tpl"}
 
 <div class="container">
+    <h2>Usuarios</h2>
     {foreach from=$users item=$user}
         <div class="list-group">
             <li class="list-group-item">{$user->user} <a href="deleteUser/{$user->id_user}"><i class="fas fa-skull"></i></a>{if $user->role == "usuario"}<a href="giveAdmin/{$user->id_user}"><i class="far fa-star"></i></a>{else}<a href="deleteAdmin/{$user->id_user}"><i class="fas fa-star"></i></a>{/if}</li>

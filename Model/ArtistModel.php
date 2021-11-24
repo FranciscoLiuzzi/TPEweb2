@@ -17,15 +17,27 @@ class ArtistModel{
         return $artists;
     }
 
-    function insertArtist($artist, $genre){
+    function getArtist($id){
+        $query = $this->db->prepare("SELECT * FROM artist WHERE id_artist = ?");
+        $artist = $query->execute(array($id));
 
+        $artist = $query->fetch(PDO::FETCH_OBJ);
+
+        return $artist;
+    }
+
+    function insertArtist($artist, $genre){
         $query = $this->db->prepare("INSERT INTO artist(artist,genre) VALUES (?,?)");
         $query->execute(array($artist, $genre));
+
+        return $this->db->lastInsertId();
     }
 
     function editArtist($id_artist,$artist,$genre,$artist_img){
         $query = $this->db->prepare("UPDATE artist SET id_artist = ?, artist = ?, genre = ?, artist_img = ? WHERE id_artist = ?");
         $query->execute(array($id_artist,$artist,$genre,$artist_img,$id_artist));
+
+        return $this->db->lastInsertId();
     }
 
     function dropArtist($id){

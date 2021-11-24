@@ -19,8 +19,9 @@ class CommentApiController {
         if ($comments){
             $this->view->response($comments, 200);
         }else{
-            $this->view->response("Error", 404);
+            $this->view->response("Vacio", 204);
         }
+
     }
 
     function deleteComment($params = null){
@@ -31,20 +32,24 @@ class CommentApiController {
             $this->model->dropComment($id);
             $this->view->response("Comentario borrado", 200);
         }else{
-            $this->view->response("El comentario con id={$id} no existe", 404);
+            $this->view->response("El comentario con id={$id} no existe", 204);
         }
     }
 //consultar a lucho
     function postComment($params = null){
         //chequear que este logeado
         $body = $this->getBody();
-
-        $id = $this->model->newComment($body->id_user,$body->id_album,$body->comment,$body->score);
-        if ($id != 0){
-            $this->view->response("NASHEEEEEEE", 200);
+        if(!empty($body->id_user) && !empty($body->id_album) && !empty($body->comment) && !empty($body->score)){
+            $id = $this->model->newComment($body->id_user,$body->id_album,$body->comment,$body->score);
+            if ($id != 0){
+                $this->view->response("publicado", 200);
+            }else{
+                $this->view->response("Error",500);
+            }
         }else{
-            $this->view->response("F",500);
+            $this->view->response("Falta llenar campos",400);
         }
+        
     }
 
     private function getBody() {

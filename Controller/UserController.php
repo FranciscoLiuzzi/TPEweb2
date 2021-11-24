@@ -32,8 +32,14 @@ class UserController {
             $email = $_POST['email'];
             $hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-            $this->model->insertUser($user,$hash,$email);
-            $this->verifyUser($user,$_POST['password']);
+            $id = $this->model->insertUser($user,$hash,$email);
+            if($id != 0){
+                $this->verifyUser($user,$_POST['password']);
+            }else{
+                $this->view_user->showError(false,"Error: no se pudo registrar");
+            }
+        }else{
+            $this->view->showLogin(false, "Llene los campos");
         }
     }
 
@@ -56,8 +62,9 @@ class UserController {
                 $logged = $this->authhelper->checkLogin();
                 $this->view->showLogin($logged, "Credenciales invalidas");
             }
+        }else{
+            $this->view->showLogin(false, "Llene los campos");
         }
-        
     }
 
     public function showRegister(){
@@ -81,7 +88,7 @@ class UserController {
             if($admin == true){
                 $this->view->displayAdmin($logged,$artists,$albums,$users);
             }else{
-                $this->view->showLoginLocation();
+                $this->view->showError($logged,"No tenes permisos!");
             }
         }else{
             $this->view->showLoginLocation();
@@ -93,11 +100,15 @@ class UserController {
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                //validar que exista
-                $this->model->dropUser($id);
-                //$this->view->showAlbumsLocation();
+                $user = $this->model->getUserbyId($id);
+                if($user){
+                    $this->model->dropUser($id);
+                    $this->view->showAdminLocation();
+                }else{
+                    $this->view->showError($logged,"Usuario no existe!");
+                }
             }else{
-                $this->view->showLoginLocation();
+                $this->view->showError($logged,"No tenes permisos!");
             }
         }else{
             $this->view->showLoginLocation();
@@ -110,10 +121,15 @@ class UserController {
         if($logged == true){
             if($admin == true){
                 //validar que exista
-                $this->model->setAdmin($id);
-                //$this->view->showAlbumsLocation();
+                $user = $this->model->getUserbyId($id);
+                if($user){
+                    $this->model->setAdmin($id);
+                    $this->view->showAdminLocation();
+                }else{
+                    $this->view->showError($logged,"Usuario no existe!");
+                }
             }else{
-                $this->view->showLoginLocation();
+                $this->view->showError($logged,"No tenes permisos!");
             }
         }else{
             $this->view->showLoginLocation();
@@ -125,10 +141,15 @@ class UserController {
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                $this->model->dropAdmin($id);
-                //$this->view->showAlbumsLocation();
+                $user = $this->model->getUserbyId($id);
+                if($user){
+                    $this->model->dropAdmin($id);
+                    $this->view->showAdminLocation();
+                }else{
+                    $this->view->showError($logged,"Usuario no existe!");
+                }
             }else{
-                $this->view->showLoginLocation();
+                $this->view->showError($logged,"No tenes permisos!");
             }
         }else{
             $this->view->showLoginLocation();
