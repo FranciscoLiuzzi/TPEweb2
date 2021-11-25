@@ -16,8 +16,9 @@ let app = new Vue({
                     method:"DELETE",
                 });
                 if (response.ok){
-                    console.log("Borrado");
                     getComments();
+                }else{
+                    alert("error")
                 }
             }catch(error){
                 alert(error)
@@ -35,8 +36,6 @@ async function getComments(){
         if(response.ok){
             let comments = await response.json();
             app.comments = comments;
-            
-            console.log(comments);
         }
     } catch(e){
         console.log(e);
@@ -76,4 +75,3 @@ async function postComment(){
         alert(error)
     }
 }
-console.log(URL_API);

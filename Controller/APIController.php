@@ -34,9 +34,8 @@ class CommentApiController {
             $this->view->response("El comentario con id={$id} no existe", 204);
         }
     }
-//consultar a lucho
+
     function postComment($params = null){
-        //chequear que este logeado
         $body = $this->getBody();
         if(!empty($body->id_user) && !empty($body->id_album) && !empty($body->comment) && !empty($body->score)){
             $id = $this->model->newComment($body->id_user,$body->id_album,$body->comment,$body->score);
@@ -55,6 +54,4 @@ class CommentApiController {
         $bodyString = file_get_contents("php://input");
         return json_decode($bodyString);
     }
-
-
 }

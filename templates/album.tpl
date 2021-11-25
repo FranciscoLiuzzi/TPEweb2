@@ -14,11 +14,12 @@
             </div>
         </div>
     </div> 
-    <div class="panel">
+    <div class="mb-3">
         <form class="panel-body" id="formComment">
             {if !$logged} <fieldset disabled> {/if}
                 <textarea class="form-control" rows="2" placeholder="Haz un comentario" name="comment" {if !$logged} disabled {/if}></textarea>
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="score" {if !$logged} disabled {/if}>
+                <h5>Seleccione un puntaje</h5>
+                <select class="selectpicker" aria-label=".form-select-sm example" name="score" {if !$logged} disabled {/if}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>

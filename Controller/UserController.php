@@ -101,7 +101,7 @@ class UserController {
         if($logged == true){
             if($admin == true){
                 $user = $this->model->getUserbyId($id);
-                if($user){
+                if(!empty($user)){
                     $this->model->dropUser($id);
                     $this->view->showAdminLocation();
                 }else{
@@ -120,9 +120,8 @@ class UserController {
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                //validar que exista
                 $user = $this->model->getUserbyId($id);
-                if($user){
+                if(!empty($user)){
                     $this->model->setAdmin($id);
                     $this->view->showAdminLocation();
                 }else{
@@ -142,7 +141,7 @@ class UserController {
         if($logged == true){
             if($admin == true){
                 $user = $this->model->getUserbyId($id);
-                if($user){
+                if(!empty($user)){
                     $this->model->dropAdmin($id);
                     $this->view->showAdminLocation();
                 }else{

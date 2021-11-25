@@ -41,7 +41,6 @@ class UserView{
     }
 
     public function showSucces($logged, $notification = "") {
-        var_dump($_FILES);
         $this->smarty->assign('logged', $logged);
         $this->smarty->assign('notification', $notification); 
         $this->smarty->display('templates/succes.tpl');

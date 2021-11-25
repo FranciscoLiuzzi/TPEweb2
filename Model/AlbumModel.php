@@ -84,13 +84,6 @@ class AlbumModel{
         return $this->db->lastInsertId();
     }
 
-    /*private function uploadImage($image){
-        $filePath = "img/albums/" . uniqid("", true) . "." . strtolower(pathinfo($_FILES['input_name']['name'], PATHINFO_EXTENSION));
-        move_uploaded_file($image, $target);
-        return $target;
-    }*/
-
-
     function dropAlbum($id){
         $query = $this->db->prepare('DELETE FROM album WHERE id_album = ?');
         $query->execute(array($id));

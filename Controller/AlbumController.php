@@ -17,13 +17,6 @@ class AlbumController{
         $this->authhelper = new AuthHelper();
     }
 
-    /*function showAlbums(){
-        $logged = $this->authhelper->checkLogin();
-        $admin = $this->authhelper->checkAdmin();
-        $albums = $this->model->getAlbums();
-        $this->view->displayAlbums($albums, $admin, $logged);
-    }*/
-
     function pagination(){
         $limit = 9;
         $items = $this->model->calcItems();
@@ -82,7 +75,6 @@ class AlbumController{
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                //agregar validacion de si llega
                 if(!empty($_POST['id_album']) && !empty($_POST['album']) && !empty($_FILES["image"]["name"]) && !empty($_POST['anio']) && !empty($_POST['score']) && !empty($_POST['artist'])){
                     if($_FILES['image']['type'] == "image/jpg" || $_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png" ) {
                         $this->model->editAlbum($_POST['id_album'],$_POST['album'],$_FILES["image"]["tmp_name"],$_POST['anio'],$_POST['score'],$_POST['artist']);
@@ -106,8 +98,8 @@ class AlbumController{
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                $album = $this->model->getAlbum($id);//validar que el album exista
-                if($album){
+                $album = $this->model->getAlbum($id);
+                if(!empty($album)){
                     $this->model->dropAlbum($id);
                     $this->view->showAlbumsLocation();
                 }else{

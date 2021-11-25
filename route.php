@@ -23,7 +23,6 @@
             break;
     /*--------------------------------------------ALBUMS----------------------------------------------------*/
         case 'albums':
-            //$albumController->showAlbums();
             if (!empty($params[1])){
                 $albumController->showAlbumsN($params[1]);
             }else{

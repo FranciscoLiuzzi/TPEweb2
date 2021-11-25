@@ -29,7 +29,6 @@ class ArtistController{
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                //validar que llegue algo
                 if(!empty($_POST['id_artist']) && !empty($_POST['artist']) && !empty($_POST['genre']) && !empty($_POST['artist_img'])){
                     $this->model->editArtist($_POST['id_artist'],$_POST['artist'],$_POST['genre'],$_POST['artist_img']);
                     $this->view_user->showSucces($logged, "Artista editado!");
@@ -49,7 +48,6 @@ class ArtistController{
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                //validar que llegue algo
                 if(!empty($_POST['artist']) && !empty($_POST['genre']) && !empty($_POST['image'])){
                     $id = $this->model->insertArtist($_POST['artist'],$_POST['genre'],$_POST['image']);
                     if($id != 0){
@@ -73,10 +71,9 @@ class ArtistController{
         $admin = $this->authhelper->checkAdmin();
         if($logged == true){
             if($admin == true){
-                //validar que exista 
                 try{
                     $artist = $this->model->getArtist($id);
-                    if($artist){
+                    if(!empty($artist)){
                         $this->model->dropArtist($id);
                         $this->view->showArtistsLocation();
                     }else{
